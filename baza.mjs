@@ -397,3 +397,46 @@ printPushok()
 
 sum(2,3)
 multNumbers(2, 3)
+
+//Классы позволяют создавать прототипы для объектов
+//На основании прототипов создаюстя экземпляры
+
+class Comment {
+    constructor (text) {
+        //переменная this указывает на конкретный экземпляр класса
+        this.text = text
+        this.votesQty = 0
+    }
+
+    upvote() {
+        this.votesQty += 1
+    }
+    //статичный метод, который не наследуется экземплярами
+    static margeComments(first, second) {
+        return `${first} ${second}`
+    }
+}
+
+//Создание экземпляра
+const firstComment = new Comment('азаза')
+
+console.log(firstComment)
+
+//проверка принадлежности instanceof
+firstComment instanceof Comment //true
+firstComment instanceof Object //true
+
+//проверка принадлежности свойств экземпляру объекта .hasOwnProperty()
+firstComment.hasOwnProperty('text') //true
+firstComment.hasOwnProperty('votesQty') //true
+firstComment.hasOwnProperty('upvote') //false 
+firstComment.hasOwnProperty('hasOwnProperty') //false
+
+//создание нескольких экземпляров
+const secondComment = new Comment('лалка')
+const thirdComment = new Comment('затрален')
+
+//вызов статичного метода
+console.log(Comment.margeComments('first comment', 'second comment'))
+
+console.log(Comment)
