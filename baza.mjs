@@ -18,7 +18,6 @@ objectA.c += objectA.a
 
 //стрелочная функция с выводом первого объекта
 const fu = () => {
-//объекты со свойствами лучше выводить через свойство table
     console.table(objectA)
 }
 
@@ -239,7 +238,7 @@ const [car1, car2, car3] = cars
 console.log(car3, car1, car2)
 
 //деструктуризация в функциях
-const userInfo = ({name1, commentsNum}) => { //221 строка
+const userInfo = ({name1, commentsNum}) => { //225 строка
     if(!commentsNum){
         return `${name1} has no comments`
     }
@@ -439,4 +438,94 @@ const thirdComment = new Comment('затрален')
 //вызов статичного метода
 console.log(Comment.margeComments('first comment', 'second comment'))
 
-console.log(Comment)
+//Расширение других классов 'extends'
+class NumbersArray extends Array {
+    //суммирование спомощью reduce
+    sum() {
+        // 0 в конце - это начальное значение у метода .reduce
+        return this.reduce((element, accumulator) => accumulator += element, 0)
+    }
+}
+
+const myArray6 = new NumbersArray(2, 5, 7)
+
+console.log(myArray6)
+console.log(myArray6.sum())
+
+//Прототип
+//У каждого класса есть скрытое свойство __proto__
+//В прототипе конкретного класса находятся методы, которые мы определили в этом классе
+
+console.log(Comment.prototype === secondComment.__proto__)
+console.log(NumbersArray.prototype === myArray6.__proto__)
+
+//Строки и числа ведут себя как объекты и они тоже могут вызывать методы
+
+//Промисы - позволяют обрабатывать отложенные во времени события (примеры в promises.js)
+const myPromise = new Promise((resolve, reject) => {
+    /**
+     * Выполнение асинхронных действий
+     * 
+     * Внутри этой функции нужно в результате вызвать одну из функций resolve или reject
+     */
+})
+
+//Получение результата промиса
+myPromise
+.then(value => {
+    /**
+     * Действия в случае успешного исполнения промиса
+     * Значение value - зто значение, переданное в вызове функции resolve внутри Промиса
+     */
+})
+.catch(error => {
+    /**
+     * Действия в случае отклонения Промиса
+     * Значение error - это значение, переданное в вызове функции reject внутри Промиса
+     */
+})
+
+//ASYNC/AWAIT - специальный синтаксис для упрощения работы с промисами
+//Асинхронная функция - возвращает промис
+
+//пример написания обычной функции
+async function asincFn1 () {
+    //всегда возвращает промис
+}
+
+//пример написания стрелочной функции
+const asyncFn2 = async () => {
+    //всегда возвращает промис
+}
+
+const asyncFn = async () => {
+    //сначала функция вернет промис, а потом resolve этого промиса
+    return 'Промис'
+}
+
+asyncFn()
+.then(value => console.log(value))
+
+//асинхронная функция возвращает ошибку
+const asyncFnEr = async () => {
+    throw new Error('that was an error')
+}
+
+asyncFnEr()
+.then(value => console.log(value))
+.catch(error => console.log(error.message))
+
+//AWAIT
+const timerPromise = () => 
+    new Promise((resolve, reject) =>
+        setTimeout(() => resolve(), 6000))
+
+const asyncFnAw = async () => {
+    console.log('Timer starts')
+    const startTime = performance.now()
+    await timerPromise()
+    const endTime = performance.now()
+    console.log('Timer ended', startTime)
+}
+
+asyncFnAw()
